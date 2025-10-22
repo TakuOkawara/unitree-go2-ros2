@@ -96,6 +96,8 @@ QuadrupedController::QuadrupedController():
     loop_timer_ = this->create_wall_timer(
          std::chrono::duration_cast<std::chrono::milliseconds>(period), std::bind(&QuadrupedController::controlLoop_, this));
     req_pose_.position.z = gait_config_.nominal_height;
+
+    std::cout << "gait_config_.nominal_height = " << gait_config_.nominal_height << std::endl;
 }
 
 void QuadrupedController::controlLoop_()
@@ -180,8 +182,8 @@ void QuadrupedController::publishJoints_(float target_joints[12])
         {    
             joints_msg.position[i]= target_joints[i];
         }
-
-        joint_states_publisher_->publish(joints_msg);
+        // std::cout << "  joint_states_publisher_->publish(joints_msg);\n";
+        // joint_states_publisher_->publish(joints_msg);
     }
 }
 
@@ -202,6 +204,7 @@ void QuadrupedController::publishFootContacts_(bool foot_contacts[4])
             contacts_msg.contacts[i] = base_.legs[i]->gait_phase();
             s2.append(std::to_string(contacts_msg.contacts[i]) + " ");
         }
+        std::cout << "  ###$$$  foot_contacts_publisher_->publish(contacts_msg);\n";
         foot_contacts_publisher_->publish(contacts_msg);
     }
 }

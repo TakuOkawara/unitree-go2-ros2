@@ -22,10 +22,33 @@
     <xacro:property name="stick_radius" value="0.01"/>
     <xacro:property name="stick_length" value="0.2"/>
 
-    <!-- kinematic value -->
-    <xacro:property name="thigh_offset" value="0.0955"/>
+
+
+
+
+
+    <!-- processed_params.yaml: file to be created by the python file, to imitate domain randomazation -->
+    <xacro:arg name="config_yaml"
+            default="$(find sensor_data_collector_pkg)/config/robot_params/go2/processed_params.yaml"/>
+
+    <!-- YAML を読み込む（※ 非推奨警告に従い xacro.load_yaml を使用） -->
+    <xacro:property name="cfg" value="${xacro.load_yaml('$(arg config_yaml)')}"/>
+
+    <!-- YAML値をデフォルトとする「引数」 -->
+    <xacro:arg name="thigh_offset_arg" default="${cfg['kinematics']['thigh_offset']}"/>
+    <xacro:arg name="thigh_length_arg"  default="${cfg['kinematics']['thigh_length']}"/>
+    <xacro:arg name="calf_length_arg" default="${cfg['kinematics']['calf_length']}"/>
+
+    <!-- This reflects robot_length -->
+
+    <xacro:property name="thigh_offset" value="$(arg thigh_offset_arg)"/>
+    <xacro:property name="thigh_length" value="$(arg thigh_length_arg)"/>
+    <xacro:property name="calf_length" value="$(arg calf_length_arg)"/>
+
+    <!-- kinematic value is set by a yaml file -->
+    <!-- <xacro:property name="thigh_offset" value="0.0955"/>
     <xacro:property name="thigh_length" value="0.213"/>
-    <xacro:property name="calf_length" value="0.213"/>
+    <xacro:property name="calf_length" value="0.213"/> -->
 
     <!-- leg offset from trunk center value -->
     <xacro:property name="leg_offset_x" value="0.1934"/>

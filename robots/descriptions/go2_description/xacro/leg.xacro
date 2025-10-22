@@ -142,7 +142,7 @@
         </link>
 
 
-        <joint name="${name}_foot_joint" type="fixed">0
+        <joint name="${name}_foot_joint" type="fixed">
             <origin rpy="0 0 0" xyz="0 0 ${-(calf_length)}"/>
             <parent link="${name}_lower_leg_link"/>
             <child link="${name}_foot_link"/>
@@ -170,6 +170,18 @@
                     izz="${(2*foot_mass)/5.0*(foot_radius*foot_radius)}"/>             
             </inertial>
         </link>
+
+
+        <gazebo reference="${name}_foot_link">
+            <sensor type="contact" name="${name}_foot_contact">
+            <contact>
+                <collision>${name}_lower_leg_link_fixed_joint_lump__${name}_foot_link_collision_1</collision>
+                <topic>/${name}_foot_contact</topic>
+            </contact>
+            <always_on>1</always_on>
+            <update_rate>200</update_rate>
+            </sensor>
+        </gazebo>
 
         <ros2_control name="${name}" type="system">
             <hardware>

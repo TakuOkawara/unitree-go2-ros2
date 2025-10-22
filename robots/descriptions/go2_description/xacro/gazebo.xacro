@@ -12,7 +12,24 @@
         <update_rate>10.0</update_rate>
         <xyz_offset>0 0 0</xyz_offset>
         <rpy_offset>0 0 0</rpy_offset>
-        <gaussian_noise>0.01</gaussian_noise>
+        <gaussian_noise>0.00</gaussian_noise>
+    </plugin>
+    </gazebo>
+
+    <!-- p3d plugin publishing ground-truth odom for imu_link -->
+    <gazebo>
+    <plugin filename="libgazebo_ros_p3d.so" name="p3d_imu_controller">
+        <ros>
+        <!-- Use a distinct namespace/topic so it doesn't collide with the base_link p3d -->
+        <namespace>/imu</namespace>
+        <argument>odom:=odom/ground_truth_imu</argument>
+        </ros>
+        <body_name>imu_link</body_name>
+        <frame_name>world</frame_name>
+        <update_rate>10.0</update_rate>
+        <xyz_offset>0 0 0</xyz_offset>
+        <rpy_offset>0 0 0</rpy_offset>
+        <gaussian_noise>0.0</gaussian_noise>
     </plugin>
     </gazebo>
 
@@ -25,25 +42,25 @@
     <gazebo reference="imu_link">
         <sensor name="imu_sensor" type="imu">
             <always_on>true</always_on>
-            <update_rate>100</update_rate>
+            <update_rate>200</update_rate>
             <imu>
             <angular_velocity>
                 <x>
                 <noise type="gaussian">
                     <mean>0.0</mean>
-                    <stddev>2e-4</stddev>
+                    <stddev>1e-6</stddev>
                 </noise>
                 </x>
                 <y>
                 <noise type="gaussian">
                     <mean>0.0</mean>
-                    <stddev>2e-4</stddev>
+                    <stddev>1e-6</stddev>
                 </noise>
                 </y>
                 <z>
                 <noise type="gaussian">
                     <mean>0.0</mean>
-                    <stddev>2e-4</stddev>
+                    <stddev>1e-6</stddev>
                 </noise>
                 </z>
             </angular_velocity>
@@ -51,19 +68,19 @@
                 <x>
                 <noise type="gaussian">
                     <mean>0.0</mean>
-                    <stddev>1.7e-2</stddev>
+                    <stddev>1e-6</stddev>
                 </noise>
                 </x>
                 <y>
                 <noise type="gaussian">
                     <mean>0.0</mean>
-                    <stddev>1.7e-2</stddev>
+                    <stddev>1e-6</stddev>
                 </noise>
                 </y>
                 <z>
                 <noise type="gaussian">
                     <mean>0.0</mean>
-                    <stddev>1.7e-2</stddev>
+                    <stddev>1e-6</stddev>
                 </noise>
                 </z>
             </linear_acceleration>
